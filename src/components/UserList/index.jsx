@@ -11,17 +11,20 @@ export default class UserList extends Component {
         number: PropTypes.string.isRequired,
       })
     ).isRequired,
+    onDelete: PropTypes.func.isRequired,
   };
 
   render() {
-    const { contacts } = this.props;
+    const { contacts, onDelete } = this.props;
     return (
       <ul>
         {contacts.map(contact => (
           <UserListItem
             key={contact.id}
+            id={contact.id}
             name={contact.name}
             number={contact.number}
+            onDelete={onDelete}
           />
         ))}
       </ul>

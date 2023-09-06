@@ -17,6 +17,14 @@ export default class App extends Component {
   };
 
   onFormSubmit = ({ name, number }) => {
+    const { contacts } = this.state;
+    const normalizedName = name.toLowerCase();
+    const isUserExists = contacts.some(
+      contact => contact.name.toLowerCase() === normalizedName
+    );
+
+    if (isUserExists) return alert(`${name} is already in contacts`);
+
     this.setState(prevState => ({
       contacts: [{ name, number, id: nanoid() }, ...prevState.contacts],
     }));
@@ -26,7 +34,13 @@ export default class App extends Component {
     this.setState({ filter: evt.target.value });
   };
 
-  filterContacts = () => {
+  onContactDelete = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
+
+  filteredContacts = () => {
     const { contacts, filter } = this.state;
     const normalizedFilter = filter.toLowerCase();
 
@@ -36,8 +50,8 @@ export default class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
-    const filteredContacts = this.filterContacts();
+    const { contacts, filter } = this.state;
+    const filteredContacts = this.filteredContacts();
 
     return (
       <div>
@@ -45,8 +59,17 @@ export default class App extends Component {
           <UserForm onSubmit={this.onFormSubmit} />
         </Section>
         <Section title="Contacts">
-          <Filter filter={filter} onChange={this.onFilterChange} />
-          <UserList contacts={filteredContacts} />
+          {contacts.length !== 0 ? (
+            <>
+              <Filter filter={filter} onChange={this.onFilterChange} />
+              <UserList
+                contacts={filteredContacts}
+                onDelete={this.onContactDelete}
+              />
+            </>
+          ) : (
+            <p>No info</p>
+          )}
         </Section>
       </div>
     );
