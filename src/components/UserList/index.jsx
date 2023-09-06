@@ -1,19 +1,30 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
+import UserListItem from './UserListItem';
 
 export default class UserList extends Component {
+  static propTypes = {
+    contacts: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  };
+
   render() {
-    const { contacts, filter, onChange } = this.props;
+    const { contacts } = this.props;
     return (
-      <>
-        <input type="text" name="filter" value={filter} onChange={onChange} />
-        <ul>
-          {contacts.map(contact => (
-            <li key={contact.id}>
-              {contact.name}: {contact.number}
-            </li>
-          ))}
-        </ul>
-      </>
+      <ul>
+        {contacts.map(contact => (
+          <UserListItem
+            key={contact.id}
+            name={contact.name}
+            number={contact.number}
+          />
+        ))}
+      </ul>
     );
   }
 }

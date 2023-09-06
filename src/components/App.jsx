@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import { Component } from 'react';
 import Section from './Section';
 import UserForm from './UserForm';
+import Filter from './Filter';
 import UserList from './UserList';
 
 export default class App extends Component {
@@ -12,29 +13,21 @@ export default class App extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
-    name: '',
-    number: '',
     filter: '',
   };
 
-  onHandleChange = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
-  };
-
-  onHandleSubmit = evt => {
-    const { name, number } = this.state;
-    evt.preventDefault();
+  onFormSubmit = ({ name, number }) => {
     this.setState(prevState => ({
       contacts: [{ name, number, id: nanoid() }, ...prevState.contacts],
-      name: '',
-      number: '',
     }));
+  };
+
+  onFilterChange = evt => {
+    this.setState({ filter: evt.target.value });
   };
 
   filterContacts = () => {
     const { contacts, filter } = this.state;
-
     const normalizedFilter = filter.toLowerCase();
 
     return contacts.filter(contact =>
@@ -43,24 +36,17 @@ export default class App extends Component {
   };
 
   render() {
-    const { name, number, filter } = this.state;
+    const { filter } = this.state;
     const filteredContacts = this.filterContacts();
+
     return (
       <div>
         <Section title="Phonebook">
-          <UserForm
-            onSubmit={this.onHandleSubmit}
-            onChange={this.onHandleChange}
-            newName={name}
-            newNumber={number}
-          />
+          <UserForm onSubmit={this.onFormSubmit} />
         </Section>
         <Section title="Contacts">
-          <UserList
-            contacts={filteredContacts}
-            filter={filter}
-            onChange={this.onHandleChange}
-          />
+          <Filter filter={filter} onChange={this.onFilterChange} />
+          <UserList contacts={filteredContacts} />
         </Section>
       </div>
     );
