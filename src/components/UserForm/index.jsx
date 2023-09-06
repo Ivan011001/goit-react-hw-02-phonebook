@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import { Button, Input } from 'components/BaseStyles.styled';
+import { Form } from './UserForm.styled';
 
 export default class UserForm extends Component {
   static propTypes = {
@@ -28,10 +30,10 @@ export default class UserForm extends Component {
     const { name, number } = this.state;
 
     return (
-      <form onSubmit={this.onHandleSubmit}>
+      <Form onSubmit={this.onHandleSubmit}>
         <label>
           <p>Name</p>
-          <input
+          <Input
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-ЯіІїЇєЄґҐ]+(['\s\-a-zA-Zа-яА-ЯіІїЇєЄґҐ]*)*$"
@@ -43,7 +45,7 @@ export default class UserForm extends Component {
         </label>
         <label>
           <p>Number</p>
-          <input
+          <Input
             type="tel"
             name="number"
             pattern="/^\+?\d{0,4}[-.\s]?\(?\d{0,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/"
@@ -53,8 +55,8 @@ export default class UserForm extends Component {
             onChange={this.onHandleChange}
           />
         </label>
-        <button type="submit">Add contact</button>
-      </form>
+        <Button type="submit">Add contact</Button>
+      </Form>
     );
   }
 }

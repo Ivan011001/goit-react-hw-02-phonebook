@@ -1,9 +1,11 @@
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
-import Section from './Section';
-import UserForm from './UserForm';
-import Filter from './Filter';
-import UserList from './UserList';
+import Section from '../Section';
+import UserForm from '../UserForm';
+import Filter from '../Filter';
+import UserList from '../UserList';
+
+import { AppContainer } from './App.styled';
 
 export default class App extends Component {
   state = {
@@ -54,7 +56,7 @@ export default class App extends Component {
     const filteredContacts = this.filteredContacts();
 
     return (
-      <div>
+      <AppContainer>
         <Section title="Phonebook">
           <UserForm onSubmit={this.onFormSubmit} />
         </Section>
@@ -71,7 +73,7 @@ export default class App extends Component {
             <p>No info</p>
           )}
         </Section>
-      </div>
+      </AppContainer>
     );
   }
 }

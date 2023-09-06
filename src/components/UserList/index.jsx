@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import UserListItem from './UserListItem';
+import { ContactList } from './UserList.styled';
 
 export default class UserList extends Component {
   static propTypes = {
@@ -17,7 +18,7 @@ export default class UserList extends Component {
   render() {
     const { contacts, onDelete } = this.props;
     return (
-      <ul>
+      <ContactList>
         {contacts.map(contact => (
           <UserListItem
             key={contact.id}
@@ -27,7 +28,7 @@ export default class UserList extends Component {
             onDelete={onDelete}
           />
         ))}
-      </ul>
+      </ContactList>
     );
   }
 }
